@@ -149,17 +149,20 @@ const nativeEvents = {
   toggleRemoteSound: 9,
   releaseResource: 10,
   toggleBluetoothHeadset: 11,
-  sendString: 12
+  sendString: 12,
+  publishVideo: 13,
+  publishAudio: 14,
+  takeCapture: 15
 }
 
 class CustomTwilioVideoView extends Component {
   connect ({
-    roomName,
-    accessToken,
-    enableAudio = true,
-    enableVideo = true,
-    enableRemoteAudio = true
-  }) {
+             roomName,
+             accessToken,
+             enableAudio = true,
+             enableVideo = true,
+             enableRemoteAudio = true
+           }) {
     this.runCommand(nativeEvents.connectToRoom, [
       roomName,
       accessToken,
@@ -175,6 +178,22 @@ class CustomTwilioVideoView extends Component {
     ])
   }
 
+  publishLocalAudio () {
+    this.runCommand(nativeEvents.publishAudio, [true])
+  }
+
+  publishLocalVideo () {
+    this.runCommand(nativeEvents.publishVideo, [true])
+  }
+
+  unpublishLocalAudio () {
+    this.runCommand(nativeEvents.publishAudio, [false])
+  }
+
+  unpublishLocalVideo () {
+    this.runCommand(nativeEvents.publishVideo, [false])
+  }
+
   disconnect () {
     this.runCommand(nativeEvents.disconnect, [])
   }
@@ -185,6 +204,10 @@ class CustomTwilioVideoView extends Component {
 
   flipCamera () {
     this.runCommand(nativeEvents.switchCamera, [])
+  }
+
+  takeCapture () {
+    this.runCommand(nativeEvents.takeCapture, [])
   }
 
   setLocalVideoEnabled (enabled) {
@@ -254,7 +277,8 @@ class CustomTwilioVideoView extends Component {
       'onParticipantDisabledVideoTrack',
       'onParticipantEnabledAudioTrack',
       'onParticipantDisabledAudioTrack',
-      'onStatsReceived'
+      'onStatsReceived',
+      'onTakeCaptureSuccess'
     ].reduce((wrappedEvents, eventName) => {
       if (this.props[eventName]) {
         return {
