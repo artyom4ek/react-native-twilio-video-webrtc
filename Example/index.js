@@ -152,10 +152,10 @@ export default class Example extends Component {
   _onParticipantRemovedVideoTrack = ({participant, track}) => {
     console.log("onParticipantRemovedVideoTrack: ", participant, track)
 
-    const videoTracks = this.state.videoTracks
+    const videoTracks = new Map(this.state.videoTracks);
     videoTracks.delete(track.trackSid)
 
-    this.setState({ videoTracks: new Map([ ...videoTracks ]) });
+    this.setState({ videoTracks });
   }
 
   _requestAudioPermission =  () => {
@@ -173,7 +173,7 @@ export default class Example extends Component {
 
   _requestCameraPermission =  () => {
     return PermissionsAndroid.request(
-     PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.CAMERA,
       {
         title: "Need permission to access camera",
         message:
@@ -209,7 +209,7 @@ export default class Example extends Component {
 
         {
           (this.state.status === 'connected' || this.state.status === 'connecting') &&
-            <View style={styles.callContainer}>
+          <View style={styles.callContainer}>
             {
               this.state.status === 'connected' &&
               <View style={styles.remoteGrid}>
