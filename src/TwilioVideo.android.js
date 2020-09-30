@@ -151,8 +151,7 @@ const nativeEvents = {
   toggleBluetoothHeadset: 11,
   sendString: 12,
   publishVideo: 13,
-  publishAudio: 14,
-  takeCapture: 15
+  publishAudio: 14
 }
 
 class CustomTwilioVideoView extends Component {
@@ -204,10 +203,6 @@ class CustomTwilioVideoView extends Component {
 
   flipCamera () {
     this.runCommand(nativeEvents.switchCamera, [])
-  }
-
-  takeCapture () {
-    this.runCommand(nativeEvents.takeCapture, [])
   }
 
   setLocalVideoEnabled (enabled) {
@@ -277,8 +272,7 @@ class CustomTwilioVideoView extends Component {
       'onParticipantDisabledVideoTrack',
       'onParticipantEnabledAudioTrack',
       'onParticipantDisabledAudioTrack',
-      'onStatsReceived',
-      'onTakeCaptureSuccess'
+      'onStatsReceived'
     ].reduce((wrappedEvents, eventName) => {
       if (this.props[eventName]) {
         return {
